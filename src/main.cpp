@@ -24,6 +24,7 @@ int main() {
   sf::Sprite sprite(texture);
 
   sf::View view;
+  view.setCenter(0.f, 0.f);
 
   // Initialize the view to a rectangle located at (100, 100) and with a size of 400x200
   //view.reset(sf::FloatRect(100, 100, 400, 200));
@@ -39,20 +40,30 @@ int main() {
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) 
         window.close();
-      else if (event.type == sf::Event::MouseButtonPressed) {
+      if (event.type == sf::Event::MouseButtonPressed) {
         LOG("mouse");
         view.rotate(5.f);
-            // catch the resize events
-        if (event.type == sf::Event::Resized)
-        {
-            // update the view to the new size of the window
-            sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-            window.setView(sf::View(visibleArea));
-        }
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        view.move(0.f, 10.f);
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        view.move(10.f, 0.f);
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        view.move(0.f, -10.f);
+      } 
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        view.move(-10.f, 0.f);
+      }  // catch the resize events
+      if (event.type == sf::Event::Resized) {
+          // update the view to the new size of the window
+          sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+          window.setView(sf::View(visibleArea));
       }
     }
     window.setView(view);
-    window.clear(); 
+    window.clear();
     window.draw(sprite);
     window.display();
   }
