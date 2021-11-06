@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 class GameObject {
-    private:
+    protected:
         std::string tag = "";
         sf::Texture texture;
         sf::Sprite sprite;
