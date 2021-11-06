@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+CMakeFiles
+_deps
+googletest
+Makefile
+CMakeCache.txt
+test
+bin
+*cmake
+*a
+main
+lib
