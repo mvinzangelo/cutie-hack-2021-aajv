@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG
   #define LOG(x) (cout << x << endl)
