@@ -29,6 +29,7 @@ endif()
 FetchContent_MakeAvailable(sfml)
 
 ADD_EXECUTABLE(main
+	src/Game.cpp
 	src/main.cpp
 )
 
