@@ -4,6 +4,15 @@
 using namespace std;
 
 
+#define DEBUG 1
+
+#if DEBUG
+  #define LOG(x) (cout << x << endl)
+#else
+  #define LOG(x) 
+#endif
+
+
 int main()
 {
     /*
@@ -133,3 +142,4 @@ int main()
     }
     return 0;
 }
+
