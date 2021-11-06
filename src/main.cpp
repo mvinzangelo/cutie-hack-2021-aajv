@@ -43,12 +43,12 @@ int main() {
         LOG("mouse");
         view.rotate(5.f);
             // catch the resize events
-    if (event.type == sf::Event::Resized)
-    {
-        // update the view to the new size of the window
-        sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-        window.setView(sf::View(visibleArea));
-    }
+        if (event.type == sf::Event::Resized)
+        {
+            // update the view to the new size of the window
+            sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+            window.setView(sf::View(visibleArea));
+        }
       }
     }
     window.setView(view);
