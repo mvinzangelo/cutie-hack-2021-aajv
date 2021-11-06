@@ -1,4 +1,5 @@
-#ifndef GAMEOBJECT_HPP
+#
+fndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
 
 #include <string>
