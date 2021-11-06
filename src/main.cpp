@@ -1,7 +1,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
+#include <math.h>
 using namespace std;
+
 
 #define DEBUG 1
 
@@ -12,61 +13,133 @@ using namespace std;
 #endif
 
 
-int main() {
-  // LOG("hello world.");
-  sf::RenderWindow window(sf::VideoMode::getDesktopMode(),
-   "SFML window",
-    sf::Style::Fullscreen);  
-  window.setFramerateLimit(60);
+int main()
+{
+    /*
+    //sf::Window window(sf::VideoMode(800, 600), "SFML Window");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    sf::Texture texture;
+    texture.loadFromFile("me.png");
+    sf::Sprite sprite1(texture);
+    // run the program as long as the window is open
+    while (window.isOpen())
+    {
+        // check all the window's events that were triggered since the last iteration of the loop
+        window.draw(sprite1);
+        window.display();
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+    }    */
 
-  sf::Texture texture;
-  texture.loadFromFile("me.png");
-  sf::Sprite sprite(texture);
+    ///////////////////////////////////////////////////////////
 
-  sf::View view;
-  view.setCenter(0.f, 0.f);
+    //create window for deskptop pixel depth
+    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+    sf::RenderWindow window2(sf::VideoMode(desktopMode.width, desktopMode.height, desktopMode.bitsPerPixel),"sprite moving", sf::Style::Fullscreen);
 
-  // Initialize the view to a rectangle located at (100, 100) and with a size of 400x200
-  //view.reset(sf::FloatRect(100, 100, 400, 200));
-  // Rotate it by 45 degrees
-  //view.rotate(45);
-  // Set its target viewport to be half of the window
-  //view.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
-  // Apply it
-  //window.setView(view);
+    window2.setVerticalSyncEnabled (true);
+    window2.setKeyRepeatEnabled(false);
 
-  while (window.isOpen()) {
-    sf::Event event; 
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) 
-        window.close();
-      if (event.type == sf::Event::MouseButtonPressed) {
-        LOG("mouse");
-        view.rotate(5.f);
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        view.move(0.f, 10.f);
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        view.move(10.f, 0.f);
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        view.move(0.f, -10.f);
-      } 
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        view.move(-10.f, 0.f);
-      }  // catch the resize events
-      if (event.type == sf::Event::Resized) {
-          // update the view to the new size of the window
-          sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-          window.setView(sf::View(visibleArea));
-      }
+
+    sf::Texture texture2;
+    texture2.loadFromFile("me.png");
+
+    sf::Sprite sprite;
+    sprite.setTexture(texture2);
+    
+    sf::FloatRect spriteSpace = sprite.getGlobalBounds();
+    //center
+    sprite.setOrigin(spriteSpace.width/2.,spriteSpace.height/2.);
+    
+    int x = window2.getSize().x/2;
+    int y = window2.getSize().y/2;
+
+    bool upFlag = false;
+    bool downFlag = false;
+    bool leftFlag = false;
+    bool rightFlag = false;
+
+    while (window2.isOpen())
+    {
+        sf::Event event;
+        while (window2.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window2.close();
+            }
+            if (event.type == sf::Event::KeyPressed)
+            {
+                switch (event.key.code)
+                {
+                    case  sf::Keyboard::Escape : window2.close(); break;
+                    case sf::Keyboard::Up :     upFlag=true; break;
+                    case sf::Keyboard::Down:    downFlag=true; break;
+                    case sf::Keyboard::Left:    leftFlag=true; break;
+                    case sf::Keyboard::Right:   rightFlag=true; break;
+                    default : break;
+                }
+            }
+            if (event.type == sf::Event::KeyReleased)
+            {
+                switch (event.key.code)
+                {
+                    case sf::Keyboard::Up: upFlag=false; break;
+                    case sf::Keyboard::Down: downFlag=false; break;
+                    case sf::Keyboard::Left: leftFlag=false; break;
+                    case sf::Keyboard::Right: rightFlag=false; break;
+                    default : break;
+                }
+            }
+        }
+
+        #define SPRITE_SPEED 20
+        if (leftFlag == true)
+        {
+            x -= SPRITE_SPEED;
+        }
+        if (rightFlag == true)
+        {
+            x += SPRITE_SPEED;
+        }
+        if (upFlag == true)
+        {
+            y -= SPRITE_SPEED;
+        }
+        if (downFlag == true)
+        {
+            y += SPRITE_SPEED;
+        }
+//boundaries
+        if (x < 0)
+        {
+            x = 0;
+        }
+        if (x > (int)window2.getSize().x) 
+        {
+            x = window2.getSize().x;
+        }
+        if (y < 0)
+        {
+            y = 0;
+        }
+        if (y > window2.getSize().y)
+        {
+            y = window2.getSize().y;
+        }
+
+//clear, draw, set background
+        window2.clear( sf::Color(120,120,120));
+        sprite.setPosition(x,y);
+        window2.clear();
+        window2.draw(sprite);
+        window2.display();
     }
-    window.setView(view);
-    window.clear();
-    window.draw(sprite);
-    window.display();
-  }
-
-  return 0;
+    return 0;
 }
+

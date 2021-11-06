@@ -36,5 +36,7 @@ ADD_EXECUTABLE(test
 	src/test.cpp
 )
 
+
+
 TARGET_LINK_LIBRARIES(test gtest_main)
 TARGET_LINK_LIBRARIES(main sfml-graphics)
