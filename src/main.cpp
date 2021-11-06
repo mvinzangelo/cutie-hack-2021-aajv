@@ -55,7 +55,14 @@ int main() {
       } 
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         view.move(-10.f, 0.f);
-      }  // catch the resize events
+      }  
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+        view.zoom(0.9);
+      }  
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+        view.zoom(1.1);
+      }  
+      // catch the resize events
       if (event.type == sf::Event::Resized) {
           // update the view to the new size of the window
           sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
